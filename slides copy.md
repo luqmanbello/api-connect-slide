@@ -54,22 +54,17 @@ layout: default
 ```mermaid
 %%{init: {'theme': 'neutral'}}%%
 graph TB
-    subgraph "API Ecosystem"
-        A[Client Applications] -->|Requests| B[API Gateway]
-        B -->|Route| C[API Services]
-        C -->|Query| D[Databases]
-        
-        M[Monitoring System] -.->|Collect Metrics| B
-        M -.->|Collect Metrics| C
-        M -.->|Collect Metrics| D
-        
-        O[Observability Platform] -.->|Traces| B
-        O -.->|Logs| C
-        O -.->|Metrics| D
-        
-        AL[Alert Manager] -->|Notify| T[DevOps Team]
-        M -->|Trigger| AL
-    end
+    A[Client Applications] -->|Requests| B[API Gateway]
+    B -->|Route| C[API Services]
+    C -->|Query| D[Databases]
+    M[Monitoring System] -.->|Collect Metrics| B
+    M -.->|Collect Metrics| C
+    M -.->|Collect Metrics| D
+    O[Observability Platform] -.->|Traces| B
+    O -.->|Logs| C
+    O -.->|Metrics| D
+    AL[Alert Manager] -->|Notify| T[DevOps Team]
+    M -->|Trigger| AL
 ```
 
 ---
@@ -119,12 +114,10 @@ layout: default
 
 ```mermaid
 graph LR
-    subgraph "Three Pillars of Observability"
-        M[Metrics] -->|Quantitative| I[Insights]
-        L[Logs] -->|Qualitative| I
-        T[Traces] -->|Contextual| I
-        I -->|Inform| D[Decisions]
-    end
+    M[Metrics] -->|Quantitative| I[Insights]
+    L[Logs] -->|Qualitative| I
+    T[Traces] -->|Contextual| I
+    I -->|Inform| D[Decisions]
 ```
 
 ---
