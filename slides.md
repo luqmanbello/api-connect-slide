@@ -46,6 +46,98 @@ layout: intro
 </v-clicks>
 
 ---
+layout: default
+---
+
+# API Ecosystem Overview
+
+```mermaid
+%%{init: {'theme': 'neutral'}}%%
+graph TB
+    subgraph "API Ecosystem"
+        A[Client Applications] -->|Requests| B[API Gateway]
+        B -->|Route| C[API Services]
+        C -->|Query| D[Databases]
+        
+        M[Monitoring System] -.->|Collect Metrics| B
+        M -.->|Collect Metrics| C
+        M -.->|Collect Metrics| D
+        
+        O[Observability Platform] -.->|Traces| B
+        O -.->|Logs| C
+        O -.->|Metrics| D
+        
+        AL[Alert Manager] -->|Notify| T[DevOps Team]
+        M -->|Trigger| AL
+    end
+```
+
+---
+layout: default
+---
+
+# Request Flow & Monitoring
+
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant G as API Gateway
+    participant S as Service
+    participant M as Monitoring
+    participant A as Alert System
+    
+    C->>+G: API Request
+    G->>+S: Forward Request
+    M->>M: Collect Metrics
+    S-->>-G: Response
+    G-->>-C: Return Response
+    
+    M->>A: Threshold Exceeded
+    A->>M: Acknowledge Alert
+```
+
+---
+layout: default
+---
+
+# Common API Issues Distribution
+
+```mermaid
+pie title "Common API Issues Distribution"
+    "Timeout Issues" : 30
+    "Rate Limiting" : 25
+    "Data Inconsistencies" : 20
+    "Authentication" : 15
+    "Other" : 10
+```
+
+---
+layout: default
+---
+
+# Three Pillars of Observability
+
+```mermaid
+graph LR
+    subgraph "Three Pillars of Observability"
+        M[Metrics] -->|Quantitative| I[Insights]
+        L[Logs] -->|Qualitative| I
+        T[Traces] -->|Contextual| I
+        I -->|Inform| D[Decisions]
+    end
+```
+
+---
+layout: default
+---
+
+# Live Monitoring Demo
+
+<div class="w-full flex justify-center">
+  <APIMonitoringDemo />
+</div>
+
+---
 layout: section
 ---
 
