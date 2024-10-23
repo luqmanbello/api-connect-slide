@@ -40,8 +40,9 @@ layout: intro
 
 - 83% of web traffic is API traffic
 - Average enterprise uses 900+ applications
-- Critical business operations depend on APIs
+- Every minute of downtime costs ~$5,600
 - Modern challenges require modern solutions
+- DevOps practices are crucial for API reliability
 
 </v-clicks>
 
@@ -71,53 +72,96 @@ graph TB
 layout: default
 ---
 
-# Request Flow & Monitoring
+# Current Monitoring Challenges
 
-```mermaid
-sequenceDiagram
-    participant C as Client
-    participant G as API Gateway
-    participant S as Service
-    participant M as Monitoring
-    participant A as Alert System
-    
-    C->>+G: API Request
-    G->>+S: Forward Request
-    M->>M: Collect Metrics
-    S-->>-G: Response
-    G-->>-C: Return Response
-    
-    M->>A: Threshold Exceeded
-    A->>M: Acknowledge Alert
+<div grid="~ cols-2 gap-4">
+<div>
+
+## Scale Issues
+<v-clicks>
+
+- Microservices complexity
+- Container orchestration
+- Multi-cloud deployments
+- Dynamic scaling
+
+</v-clicks>
+
+</div>
+<div>
+
+## Operational Challenges
+<v-clicks>
+
+- Alert fatigue
+- Root cause analysis
+- Service dependencies
+- Resource optimization
+
+</v-clicks>
+
+</div>
+</div>
+
+---
+layout: two-cols
+---
+
+# API Resilience Patterns
+
+::left::
+
+## Circuit Breakers
+<v-clicks>
+
+- Prevents cascade failures
+- Auto-recovery
+- Custom fallback strategies
+- Health monitoring
+
+</v-clicks>
+
+::right::
+
+## Implementation
+```java
+@CircuitBreaker(name = "userService",
+    fallbackMethod = "userFallback",
+    slidingWindowSize = 10,
+    failureRateThreshold = 50,
+    waitDurationInOpenState = 5000)
+public User getUser(String id) {
+    return userService.getUser(id);
+}
 ```
 
 ---
 layout: default
 ---
 
-# Common API Issues Distribution
+# Rate Limiting Strategies
 
-```mermaid
-pie title "Common API Issues Distribution"
-    "Timeout Issues" : 30
-    "Rate Limiting" : 25
-    "Data Inconsistencies" : 20
-    "Authentication" : 15
-    "Other" : 10
-```
+```yaml
+# API Gateway Configuration
+rate-limiting:
+  # Token Bucket Algorithm
+  algorithms:
+    token-bucket:
+      rate: 100
+      burst: 20
+      replenish-rate: 10
 
----
-layout: default
----
+  # Redis Implementation
+  redis:
+    host: redis-master
+    port: 6379
+    timeout: 2000
 
-# Three Pillars of Observability
-
-```mermaid
-graph LR
-    M[Metrics] -->|Quantitative| I[Insights]
-    L[Logs] -->|Qualitative| I
-    T[Traces] -->|Contextual| I
-    I -->|Inform| D[Decisions]
+  # Response Headers
+  headers:
+    remaining: X-RateLimit-Remaining
+    reset: X-RateLimit-Reset
+    limit: X-RateLimit-Limit
 ```
 
 ---
@@ -131,279 +175,121 @@ layout: default
 </div>
 
 ---
-layout: section
----
-
-# Today's Journey
-
-<v-clicks>
-
-1. Understanding API Resilience
-2. Deep Dive into Monitoring Strategies
-3. Implementing Comprehensive Observability
-4. Real-world Examples & Best Practices
-5. Interactive Discussion
-
-</v-clicks>
-
----
 layout: two-cols
 ---
 
-# What is API Resilience?
+# DevOps Integration
 
 ::left::
 
+## CI/CD Pipeline
 <v-clicks>
 
-## Key Aspects
-- Fault tolerance
-- Self-healing capabilities
-- Graceful degradation
-- Recovery mechanisms
-
-</v-clicks>
-
-::right::
-
-<v-clicks>
-
-## Common Failure Patterns
-- Network failures
-- Rate limiting issues
-- Database problems
-- Memory leaks
-- Cascading failures
-- Dependency issues
-
-</v-clicks>
-
----
-layout: default
----
-
-# Impact of Poor API Performance
-
-<div grid="~ cols-2 gap-4">
-<div>
-
-## Business Impact
-<v-clicks>
-
-- Revenue loss
-- Customer dissatisfaction
-- Brand damage
-- Lost opportunities
-
-</v-clicks>
-
-</div>
-<div>
-
-## Technical Impact
-<v-clicks>
-
-- System instability
-- Data inconsistency
-- Resource wastage
-- Increased technical debt
-
-</v-clicks>
-
-</div>
-</div>
-
----
-layout: section
----
-
-# Advanced Monitoring Strategies
-
-<v-clicks>
-
-## The Foundation
-- Latency
-- Error rates
-- Throughput
-- Saturation
-- Resource utilization
-
-</v-clicks>
-
----
-layout: two-cols
----
-
-# Modern Monitoring Stack
-
-::left::
-
-## Datadog & NewRelic
-<v-clicks>
-
-- Real-time performance monitoring
-- APM capabilities
-- Infrastructure monitoring
-- Custom metrics
-- Transaction tracing
-- Error tracking
-
-</v-clicks>
-
-::right::
-
-## Prometheus & Grafana
-<v-clicks>
-
-- Time-series data collection
-- Custom metrics
-- Alerting capabilities
-- Visualization excellence
-- PromQL flexibility
-- Dashboard templates
-
-</v-clicks>
-
----
-layout: default
----
-
-# Elastic Stack Deep Dive
-
-```mermaid {scale: 0.8}
-graph LR
-    A[Beats] --> B[Logstash]
-    B --> C[Elasticsearch]
-    C --> D[Kibana]
-    E[APM Server] --> C
-```
-
-<v-clicks>
-
-- Log aggregation and analysis
-- Full-text search capabilities
-- Anomaly detection
-- Visual data exploration
-- Real-time monitoring
-- Custom dashboards
-
-</v-clicks>
-
----
-layout: two-cols
----
-
-# PostHog Integration
-
-::left::
-
-<v-clicks>
-
-## Analytics Features
-- User behavior tracking
-- Feature flag management
-- Session recording
-- Product analytics
-- A/B testing
-
-</v-clicks>
-
-::right::
-
-<v-clicks>
-
-## Benefits
-- Data-driven decisions
-- User-centric monitoring
-- Feature impact analysis
-- Conversion tracking
-- Engagement metrics
-
-</v-clicks>
-
----
-layout: default
----
-
-# Implementation Best Practices
-
-<v-clicks>
-
-1. **Start with Business Objectives**
-   - Define clear goals
-   - Align with stakeholders
-   - Set measurable targets
-
-2. **Define Standards**
-   - SLIs (Service Level Indicators)
-   - SLOs (Service Level Objectives)
-   - SLAs (Service Level Agreements)
-
-3. **Technical Implementation**
-   - Proper tagging strategy
-   - Meaningful dashboards
-   - Intelligent alerting
-   - Automation
-
-</v-clicks>
-
----
-layout: default
----
-
-# Real-World Implementation
-
-```yaml {all|2-8|9-15|16-20|all}
-monitoring:
-  # Prometheus Alert Configuration
-  alerts:
-    - name: "HighErrorRate"
-      condition: "error_rate > 0.05"
-      duration: "5m"
-      severity: "critical"
-      action: "page_oncall"
-  # APM Configuration
-  apm:
-    datadog:
-      sampling_rate: 0.5
-      env: "production"
-      service_mapping: true
-  # Logging Strategy
-  logging:
-    structured: true
-    retention: "30d"
-    indexing: "daily"
-```
-
----
-layout: two-cols
----
-
-# Advanced Concepts
-
-::left::
-
-## Proactive Monitoring
-<v-clicks>
-
-- Synthetic monitoring
-- Load testing
-- Chaos engineering
-- Predictive analytics
+- Performance gates
 - Automated testing
+- Canary deployments
+- Blue-green releases
 
 </v-clicks>
 
 ::right::
 
-## Future-Proofing
+## GitOps Practice
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: monitoring-stack
+spec:
+  source:
+    repoURL: https://github.com/org/monitoring
+    path: kubernetes
+    targetRevision: HEAD
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+```
+
+---
+layout: default
+---
+
+# Kubernetes Monitoring Setup
+
+```yaml
+# Prometheus Operator
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: api-monitor
+spec:
+  selector:
+    matchLabels:
+      app: api-service
+  endpoints:
+  - port: http
+    path: /metrics
+    interval: 15s
+    scrapeTimeout: 14s
+    metricRelabelings:
+    - sourceLabels: [__name__]
+      regex: 'http_requests_total'
+      action: keep
+  namespaceSelector:
+    matchNames:
+    - production
+    - staging
+```
+
+---
+layout: default
+---
+
+# Alert Management
+
+```yaml
+groups:
+- name: api.rules
+  rules:
+  - alert: HighErrorRate
+    expr: |
+      sum(rate(http_requests_total{status=~"5.."}[5m])) 
+      / 
+      sum(rate(http_requests_total[5m])) > 0.05
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      summary: High API Error Rate
+      description: "Error rate is {{ $value }}%"
+      runbook_url: "https://wiki.org/runbooks/high-error-rate"
+```
+
+---
+layout: two-cols
+---
+
+# Performance Optimization
+
+::left::
+
+## Caching Strategy
+```yaml
+# Redis Configuration
+maxmemory 2gb
+maxmemory-policy allkeys-lru
+replica-read-only yes
+```
+
+::right::
+
+## Key Metrics
 <v-clicks>
 
-- AI/ML integration
-- Automated root cause analysis
-- Self-healing systems
-- Predictive scaling
-- Continuous optimization
+- Cache hit ratio
+- Memory usage
+- Eviction rate
+- Connection pool
 
 </v-clicks>
 
@@ -411,29 +297,100 @@ layout: two-cols
 layout: default
 ---
 
-# Implementation Roadmap
+# Auto-scaling Configuration
+
+```yaml
+# Horizontal Pod Autoscaling
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: api-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: api-service
+  minReplicas: 3
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+```
+
+---
+layout: section
+---
+
+# Incident Response & SRE Practices
 
 <v-clicks>
 
-1. **Assessment Phase**
-   - Current state analysis
-   - Gap identification
-   - Tool evaluation
+1. Automated Remediation
+2. Runbook Automation
+3. Post-Mortem Process
+4. SLO/SLI Management
+5. Error Budget Policy
 
-2. **Strategy Development**
-   - Monitoring plan
-   - Tool selection
-   - Resource allocation
+</v-clicks>
 
-3. **Implementation**
-   - Phased rollout
-   - Team training
-   - Documentation
+---
+layout: default
+---
 
-4. **Optimization**
-   - Performance tuning
-   - Alert refinement
-   - Continuous improvement
+# Automated Remediation
+
+```python
+def auto_remediate(incident):
+    if incident.type == "HighLatency":
+        # Scale up resources
+        scale_deployment(
+            namespace="production",
+            deployment="api-service",
+            replicas="+2"
+        )
+    elif incident.type == "HighErrorRate":
+        # Implement circuit breaker
+        enable_circuit_breaker(
+            service="affected-service",
+            threshold=0.5,
+            timeout="30s"
+        )
+```
+
+---
+layout: two-cols
+---
+
+# Business Impact Analysis
+
+::left::
+
+## Cost Metrics
+<v-clicks>
+
+- Infrastructure costs
+- Tool licensing
+- Operation overhead
+- Incident impact
+
+</v-clicks>
+
+::right::
+
+## ROI Indicators
+<v-clicks>
+
+- Reduced MTTR
+- Improved availability
+- Customer satisfaction
+- Resource efficiency
 
 </v-clicks>
 
@@ -449,11 +406,11 @@ Let's discuss your questions!
 <div class="pt-8">
   <span class="px-2 py-1">
     Common Topics:
-    - Tool selection criteria
-    - Cost implications
-    - Alert management
-    - Legacy system integration
-    - ROI measurement
+    - Tool selection strategy
+    - Cost optimization
+    - Scale challenges
+    - Integration patterns
+    - Team collaboration
   </span>
 </div>
 
@@ -466,6 +423,9 @@ layout: end
 <div class="pt-12">
   <span @click="$slidev.nav.next" class="px-2 py-1 rounded cursor-pointer" hover="bg-white bg-opacity-10">
     Resources and Documentation Available
+    - GitHub Repo: example/api-monitoring
+    - Documentation: docs.example.com
+    - Contact: @luqman
   </span>
 </div>
 
