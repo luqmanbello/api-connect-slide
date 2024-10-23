@@ -1,7 +1,7 @@
 ---
 theme: seriph
 background: https://source.unsplash.com/collection/94734566/1920x1080
-class: 'text-center'
+class: "text-center"
 highlighter: shiki
 lineNumbers: false
 info: |
@@ -16,11 +16,21 @@ css: unocss
 
 ## Advanced Monitoring and Observability
 
-<div class="pt-12">
-  <span class="text-xl">
-    Luqman
-    <div class="text-sm opacity-50">DevOps Engineer</div>
-  </span>
+<div class="grid grid-cols-[3fr,2fr]">
+<div>
+  <div class="pt-12">
+    <span class="text-xl">
+      Luqman
+      <div class="text-sm opacity-50">DevOps Engineer</div>
+    </span>
+  </div>
+</div>
+<div class="flex items-center justify-center">
+  <img
+    src="https://media.giphy.com/media/xT8qAXT3f4dxZMq624/giphy.gif"
+    class="w-40 rounded-lg opacity-80"
+  />
+</div>
 </div>
 
 <div class="abs-br m-6 flex gap-2">
@@ -30,21 +40,41 @@ css: unocss
   </a>
 </div>
 
+<!--
+  Welcome everyone! I'm excited to share insights about API resilience and monitoring.
+  This presentation will cover both theoretical concepts and practical implementations.
+-->
+
 ---
-layout: intro
+layout: default
 ---
 
 # Setting the Stage
+
+<div class="grid grid-cols-2 gap-4">
+<div>
 
 <v-clicks>
 
 - 83% of web traffic is API traffic
 - Average enterprise uses 900+ applications
-- Every minute of downtime costs ~$5,600
+- Critical business operations depend on APIs
 - Modern challenges require modern solutions
-- DevOps practices are crucial for API reliability
 
 </v-clicks>
+
+</div>
+<div class="flex items-center justify-center">
+  <img 
+    src="https://media.giphy.com/media/3oKIPEqDGUULpEU0aQ/giphy.gif"
+    class="h-60 rounded-lg shadow-xl"
+  />
+</div>
+</div>
+<!--
+  Understanding the API ecosystem is crucial for implementing effective monitoring.
+  Let's look at how different components interact with each other.
+-->
 
 ---
 layout: default
@@ -177,6 +207,10 @@ layout: default
 
 </div>
 </div>
+
+<!--
+Testing
+-->
 
 ---
 layout: default
