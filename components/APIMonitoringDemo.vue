@@ -2,53 +2,120 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 import { Clock, CheckCircle } from 'lucide-vue-next'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts'
+import { Line } from 'vue-chartjs'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js'
 
-const metrics = ref([])
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+)
+
 const currentMetrics = ref({
   responseTime: 129,
-  requests: 31,
-  errorRate: 0.89
+  requests: 41,
+  errorRate: 0.80
 })
-const status = ref('healthy')
 
-// Helper to format time for X-axis
-const formatTime = (date) => {
-  return date.toLocaleTimeString('en-US', { 
-    hour12: false,
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
-  })
+const chartData = ref({
+  labels: [],
+  datasets: [
+    {
+      label: 'Response Time (ms)',
+      borderColor: '#4f46e5',
+      data: [],
+      yAxisID: 'y'
+    },
+    {
+      label: 'Requests/sec',
+      borderColor: '#22c55e',
+      data: [],
+      yAxisID: 'y1'
+    }
+  ]
+})
+
+const chartOptions = {
+  responsive: true,
+  interaction: {
+    mode: 'index',
+    intersect: false,
+  },
+  scales: {
+    y: {
+      type: 'linear',
+      display: true,
+      position: 'left',
+      min: 0,
+      max: 200
+    },
+    y1: {
+      type: 'linear',
+      display: true,
+      position: 'right',
+      min: 0,
+      max: 100,
+      grid: {
+        drawOnChartArea: false
+      }
+    }
+  }
 }
 
-// Initialize data
 onMounted(() => {
-  // Create initial data points
-  const now = new Date()
-  const initialData = Array.from({ length: 6 }, (_, i) => ({
-    time: new Date(now - (5 - i) * 2000).getTime(),
-    responseTime: Math.random() * 40 + 80,
-    requests: Math.random() * 20 + 30
-  }))
-  metrics.value = initialData
-
-  // Update data periodically
-  const interval = setInterval(() => {
-    const now = new Date()
-    const newMetric = {
-      time: now.getTime(),
+  // Initialize with some data
+  const initialData = Array.from({ length: 10 }, (_, i) => {
+    const time = new Date(Date.now() - (9 - i) * 1000)
+    return {
+      time: time.toLocaleTimeString('en-US', { 
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      }),
       responseTime: Math.random() * 40 + 80,
       requests: Math.random() * 20 + 30
     }
+  })
+
+  chartData.value.labels = initialData.map(d => d.time)
+  chartData.value.datasets[0].data = initialData.map(d => d.responseTime)
+  chartData.value.datasets[1].data = initialData.map(d => d.requests)
+
+  // Update data every 2 seconds
+  const interval = setInterval(() => {
+    const now = new Date()
+    const timeStr = now.toLocaleTimeString('en-US', { 
+      hour12: false,
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    })
     
-    metrics.value = [...metrics.value.slice(1), newMetric]
+    // Update chart data
+    chartData.value.labels = [...chartData.value.labels.slice(1), timeStr]
+    chartData.value.datasets[0].data = [...chartData.value.datasets[0].data.slice(1), Math.random() * 40 + 80]
+    chartData.value.datasets[1].data = [...chartData.value.datasets[1].data.slice(1), Math.random() * 20 + 30]
+    
+    // Update current metrics
     currentMetrics.value = {
-      responseTime: Math.round(newMetric.responseTime),
-      requests: Math.round(newMetric.requests),
+      responseTime: Math.round(chartData.value.datasets[0].data.slice(-1)[0]),
+      requests: Math.round(chartData.value.datasets[1].data.slice(-1)[0]),
       errorRate: (Math.random() * 0.5 + 0.5).toFixed(2)
     }
-    status.value = currentMetrics.value.errorRate > 0.9 ? 'degraded' : 'healthy'
   }, 2000)
 
   onUnmounted(() => clearInterval(interval))
@@ -57,93 +124,48 @@ onMounted(() => {
 
 <template>
   <div class="w-full max-w-4xl bg-white rounded-lg p-6">
-    <!-- Header -->
     <div class="flex items-center justify-between mb-6">
       <h2 class="text-xl font-semibold text-gray-900">Live API Monitoring Demo</h2>
       <CheckCircle 
-        :class="status === 'healthy' ? 'text-green-500' : 'text-yellow-500'"
+        class="text-green-500"
         size="20"
       />
     </div>
 
-    <!-- Chart Section -->
-    <div class="mb-6">
-      <h3 class="text-lg font-semibold text-gray-700 mb-4">Response Time & Requests</h3>
-      <LineChart 
-        :width="600"
-        :height="300"
-        :data="metrics"
-      >
-        <CartesianGrid 
-          strokeDasharray="3 3"
-          stroke="#e5e7eb"
-        />
-        <XAxis 
-          dataKey="time"
-          :tickFormatter="time => formatTime(new Date(time))"
-          stroke="#6b7280"
-        />
-        <YAxis 
-          yAxisId="left"
-          stroke="#6b7280"
-          :domain="[0, 160]"
-          :ticks="[0, 40, 80, 120, 160]"
-        />
-        <YAxis 
-          yAxisId="right"
-          orientation="right"
-          stroke="#6b7280"
-          :domain="[0, 80]"
-          :ticks="[0, 20, 40, 60, 80]"
-        />
-        <Tooltip />
-        <Legend />
+    <div class="space-y-6">
+      <div class="p-4 bg-gray-50 rounded-lg">
+        <h3 class="text-lg font-semibold mb-4">Response Time & Requests</h3>
         <Line
-          yAxisId="left"
-          type="monotone"
-          dataKey="responseTime"
-          stroke="#4f46e5"
-          name="Response Time (ms)"
-          :dot="false"
+          :data="chartData"
+          :options="chartOptions"
+          class="h-[300px]"
         />
-        <Line
-          yAxisId="right"
-          type="monotone"
-          dataKey="requests"
-          stroke="#22c55e"
-          name="Requests/sec"
-          :dot="false"
-        />
-      </LineChart>
-    </div>
+      </div>
 
-    <!-- Metrics Grid -->
-    <div class="grid grid-cols-3 gap-4">
-      <!-- Response Time -->
-      <div class="bg-blue-50 rounded-lg p-4">
-        <h4 class="text-sm font-medium text-gray-600 mb-2">Avg Response Time</h4>
-        <div class="flex items-center">
-          <Clock class="mr-2 text-gray-500" size="16" />
+      <div class="grid grid-cols-3 gap-4">
+        <div class="p-4 bg-blue-50 rounded-lg">
+          <h4 class="text-sm font-medium text-gray-600 mb-2">Avg Response Time</h4>
+          <div class="flex items-center">
+            <Clock class="mr-2 text-gray-500" size="16" />
+            <span class="text-xl font-semibold text-gray-900">
+              {{ currentMetrics.responseTime }}ms
+            </span>
+          </div>
+        </div>
+
+        <div class="p-4 bg-green-50 rounded-lg">
+          <h4 class="text-sm font-medium text-gray-600 mb-2">Current Requests</h4>
           <span class="text-xl font-semibold text-gray-900">
-            {{ currentMetrics.responseTime }}ms
+            {{ currentMetrics.requests }}/sec
           </span>
         </div>
-      </div>
 
-      <!-- Current Requests -->
-      <div class="bg-green-50 rounded-lg p-4">
-        <h4 class="text-sm font-medium text-gray-600 mb-2">Current Requests</h4>
-        <span class="text-xl font-semibold text-gray-900">
-          {{ currentMetrics.requests }}/sec
-        </span>
-      </div>
-
-      <!-- Error Rate -->
-      <div class="bg-yellow-50 rounded-lg p-4">
-        <h4 class="text-sm font-medium text-gray-600 mb-2">Error Rate</h4>
-        <span class="text-xl font-semibold text-gray-900">
-          {{ currentMetrics.errorRate }}%
-        </span>
+        <div class="p-4 bg-yellow-50 rounded-lg">
+          <h4 class="text-sm font-medium text-gray-600 mb-2">Error Rate</h4>
+          <span class="text-xl font-semibold text-gray-900">
+            {{ currentMetrics.errorRate }}%
+          </span>
+        </div>
       </div>
     </div>
   </div>

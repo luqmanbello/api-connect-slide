@@ -21,7 +21,6 @@ css: unocss
   />
 </div> -->
 
-
 <div class="abs-br m-6 flex gap-12">
   <a href="https://lu.ma/92yp3ytk" target="_blank" 
     class="text-xl opacity-50 !border-none !hover:text-white">
@@ -58,11 +57,15 @@ media: "https://media.giphy.com/media/3oKIPEqDGUULpEU0aQ/giphy.gif"
 
 <v-clicks>
 
-- 🌐 83% of web traffic is API traffic
-- 🏢 Average enterprise uses 900+ applications
-- ⚠️ $100K+ per hour of API downtime cost
-- 🎯 200% annual increase in API security incidents
-- 🔄 75% of organizations prioritize API monitoring
+🌐 83% of web traffic is API traffic
+
+🏢 Average enterprise uses 900+ applications
+
+⚠️ $100K+ per hour of API downtime cost
+
+🎯 200% annual increase in API security incidents
+
+🔄 75% of organizations prioritize API monitoring
 
 </v-clicks>
 
@@ -103,14 +106,13 @@ layout: default
 
 <v-clicks>
 
-- 💰 Revenue loss from downtime
-  - $100K+ per hour for large enterprises
-- 😊 Customer satisfaction
-  - 84% abandon apps after poor experience
-- 🏢 Brand reputation
-  - 60% switch providers after outage
-- 🎯 Market competitiveness
-  - 3x faster time-to-market with reliable APIs
+💰 Revenue loss from downtime: ~$100K+ per hour for large enterprises
+
+😊 Customer satisfaction: ~84% abandon apps after poor experience
+
+🏢 Brand reputation: ~60% switch providers after outage
+
+🎯 Market competitiveness: ~3x faster time-to-market with reliable APIs
 
 </v-clicks>
 
@@ -124,14 +126,13 @@ layout: default
 
 <v-clicks>
 
-- 🔄 System reliability
-  - 99.9% uptime requirement
-- ⚡ Performance bottlenecks
-  - Sub-second response times
-- 📊 Resource utilization
-  - Optimal cost-performance ratio
-- 👩‍💻 Developer productivity
-  - 30% time saved with proper monitoring
+🔄 System reliability: ~99.9% uptime requirement
+
+⚡ Performance bottlenecks: ~Sub-second response times
+
+📊 Resource utilization: ~Optimal cost-performance ratio
+
+👩‍💻 Developer productivity: ~30% time saved with proper monitoring
 
 </v-clicks>
 
@@ -382,7 +383,7 @@ image: 'logos.svg' # This would be your collage of logos
 
 <v-clicks>
 
-## Industry-Leading Solutions
+### Industry-Leading Solutions
 
 Various tools cater to different monitoring needs:
 
@@ -404,73 +405,6 @@ Before we dive into specific tools, let's understand the landscape:
 - Selection depends on specific use cases and scale
 
 The image shows the most popular tools in the monitoring space, which we'll discuss in detail next.
--->
-
----
-layout: two-cols
----
-
-# Modern Monitoring Stack
-
-
-## Datadog & NewRelic
-<v-clicks>
-
-📊 Real-time performance monitoring
-  
-🔍 APM capabilities
-
-  
-🖥️ Infrastructure monitoring
-  
-📈 Advanced Analytics
-
-
-</v-clicks>
-
-::right::
-
-## Prometheus & Grafana
-<v-clicks>
-
-- ⏱️ Time-series data collection
-  - High-resolution metrics
-  - Long-term data retention
-  
-- 🎯 Custom metrics
-  - Rich query language (PromQL)
-  - Multi-dimensional data model
-  
-- ⚡ Alerting capabilities
-  - Complex alert conditions
-  - Alert aggregation
-  - Multiple notification channels
-  
-- 📊 Visualization excellence
-  - Custom dashboards
-  - Real-time updates
-  - Template variables
-
-</v-clicks>
-
-<!--
-Let's compare these powerful monitoring solutions:
-
-Commercial Solutions (Datadog & NewRelic):
-- Provide comprehensive, out-of-box monitoring
-- Require minimal setup but higher cost
-- Great for teams needing quick implementation
-- Strong support and integration options
-
-Open Source Stack (Prometheus & Grafana):
-- Highly customizable and cost-effective
-- Requires more initial setup and maintenance
-- Great for teams needing full control
-- Strong community support
-
-Both approaches have their place, and many organizations use a combination depending on specific needs.
-
-Key Takeaway: Choose tools based on your team's expertise, budget, and specific monitoring requirements.
 -->
 
 ---
@@ -514,51 +448,116 @@ layout: default
 </div>
 
 <!--
-Testing
+Let's compare these powerful monitoring solutions:
+
+Commercial Solutions (Datadog & NewRelic):
+- Provide comprehensive, out-of-box monitoring
+- Require minimal setup but higher cost
+- Great for teams needing quick implementation
+- Strong support and integration options
+
+Open Source Stack (Prometheus & Grafana):
+- Highly customizable and cost-effective
+- Requires more initial setup and maintenance
+- Great for teams needing full control
+- Strong community support
+
+Both approaches have their place, and many organizations use a combination depending on specific needs.
+
+Key Takeaway: Choose tools based on your team's expertise, budget, and specific monitoring requirements.
 -->
 
 ---
 layout: default
 ---
 
-# Elastic Stack Deep Dive
+# Elastic Stack (Open Source)
 
-```mermaid {scale: 0.8}
+```mermaid {scale: 0.7, theme: 'neutral'}
 graph LR
-    A[Elastic Agents] --> B[Fleet-Server]
-    B --> C[Elasticsearch]
-    C --> D[Kibana]
-    E[APM Server] --> C
+    subgraph Data Collection
+        A[Elastic Agents] --> B[Fleet-Server]
+        F[Logs] --> A
+        G[Metrics] --> A
+        H[APM Data] --> A
+    end
+    
+    subgraph Processing & Storage
+        B --> C[Elasticsearch]
+        E[APM Server] --> C
+    end
+    
+    subgraph Visualization
+        C --> D[Kibana]
+        D --> I[Dashboards]
+        D --> J[APM UI]
+        D --> K[Alerts]
+    end
+
+    style A fill:#4CAF50,stroke:#fff
+    style B fill:#1976D2,stroke:#fff
+    style C fill:#FF5722,stroke:#fff
+    style D fill:#9C27B0,stroke:#fff
 ```
 
-<v-clicks>
+<!--
+Let's explore the Elastic Stack architecture and capabilities:
 
-- Log aggregation and analysis
-- Full-text search capabilities
-- Anomaly detection
-- Visual data exploration
-- Real-time monitoring
-- Custom dashboards
+1. Data Collection Layer:
+   - Elastic Agents collect all types of data
+   - Fleet Server manages agent configurations
+   - Supports logs, metrics, and APM data
 
-</v-clicks>
+2. Processing & Storage:
+   - Elasticsearch handles data indexing and storage
+   - Provides powerful search and analytics
+   - Scales horizontally for large datasets
+
+3. Visualization Layer:
+   - Kibana provides powerful visualization
+   - Real-time monitoring and alerting
+   - APM interface for performance monitoring
+
+Key Benefits:
+- Single platform for logs, metrics, and APM
+- Powerful search and analytics capabilities
+- Machine learning for anomaly detection
+- Scalable architecture for growing needs
+
+[Note: The color-coded diagram helps visualize data flow through the stack]
+-->
+
 
 ---
 layout: default
 ---
 
-# PostHog Integration
+## Key Resilience Patterns
 
 <div grid="~ cols-2 gap-4">
 <div>
 
 <v-clicks>
 
-## Analytics Features
-- User behavior tracking
-- Feature flag management
-- Session recording
-- Product analytics
-- A/B testing
+🔄 Circuit Breaker
+
+Prevents cascade failures, Auto-recovery mechanism, Configurable thresholds
+
+🚦 Rate Limiting
+
+Traffic control, DDoS protection, Resource preservation
+
+```java {all|2-6|7-8}
+@CircuitBreaker(
+    name = "paymentService",
+    failureRateThreshold = 50,
+    waitDurationInOpenState = 5000,
+    slidingWindowSize = 10
+)
+public Payment processPayment(String orderId) {
+    return paymentService.process(orderId);
+}
+```
 
 </v-clicks>
 
@@ -567,93 +566,51 @@ layout: default
 
 <v-clicks>
 
-## Benefits
-- Data-driven decisions
-- User-centric monitoring
-- Feature impact analysis
-- Conversion tracking
-- Engagement metrics
+🛡️ Fallback Strategy
 
-</v-clicks>
-</div>
-</div>
+Graceful degradation, Cache responses, Default behaviors
 
----
-layout: default
----
+⚡ Timeout Management
 
-# Live Monitoring Demo
-
-<div class="w-full flex justify-center">
-  <APIMonitoringDemo />
-</div>
-
----
-layout: two-cols
----
-
-# API Resilience Patterns
-
-
-## Circuit Breakers
-<v-clicks>
-
-- Prevents cascade failures
-- Auto-recovery
-- Custom fallback strategies
-- Health monitoring
+Request timeouts, Connection limits, Retry policies
 
 </v-clicks>
 
-::right::
+</div>
+</div>
 
-## Implementation
-```java
-@CircuitBreaker(name = "userService",
-    fallbackMethod = "userFallback",
-    slidingWindowSize = 10,
-    failureRateThreshold = 50,
-    waitDurationInOpenState = 5000)
-public User getUser(String id) {
-    return userService.getUser(id);
-}
-```
+<!--
+Let's explore key API resilience patterns:
 
----
-layout: default
----
+1. Circuit Breaker:
+   - Acts like an electrical circuit breaker
+   - Opens when error threshold is reached
+   - Prevents system overload
+   - Allows gradual recovery
 
-# Rate Limiting Strategies
+2. Rate Limiting:
+   - Controls request flow
+   - Protects backend services
+   - Fair resource distribution
+   - Multiple algorithm options
 
-```yaml
-# API Gateway Configuration
-rate-limiting:
-  # Token Bucket Algorithm
-  algorithms:
-    token-bucket:
-      rate: 100
-      burst: 20
-      replenish-rate: 10
+3. Implementation Benefits:
+   - Prevents cascading failures
+   - Improves system stability
+   - Better user experience
+   - Resource optimization
 
-  # Redis Implementation
-  redis:
-    host: redis-master
-    port: 6379
-    timeout: 2000
-
-  # Response Headers
-  headers:
-    remaining: X-RateLimit-Remaining
-    reset: X-RateLimit-Reset
-    limit: X-RateLimit-Limit
-```
+The code examples show real-world implementations of these patterns using Spring Cloud Circuit Breaker and API Gateway rate limiting.
+-->
 
 ---
-layout: two-cols
+layout: section
 ---
 
 # Implementation Best Practices
 
+<div grid="~ cols-2 gap-4">
+<div>
 
 ## Core Principles
 <v-clicks>
@@ -670,7 +627,8 @@ layout: two-cols
 
 </v-clicks>
 
-::right::
+</div>
+<div>
 
 ## Technical Approach
 <v-clicks>
@@ -689,232 +647,356 @@ layout: two-cols
 
 </v-clicks>
 
----
-layout: default
----
-
-# DevOps Integration
-
-```yaml
-# ArgoCD Application Configuration
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: monitoring-stack
-spec:
-  source:
-    repoURL: https://github.com/org/monitoring
-    path: kubernetes
-    targetRevision: HEAD
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: monitoring
-```
-
----
-layout: default
----
-
-# Kubernetes Monitoring Setup
-
-```yaml
-# Prometheus Operator
-apiVersion: monitoring.coreos.com/v1
-kind: ServiceMonitor
-metadata:
-  name: api-monitor
-spec:
-  selector:
-    matchLabels:
-      app: api-service
-  endpoints:
-  - port: http
-    path: /metrics
-    interval: 15s
-    scrapeTimeout: 14s
-    metricRelabelings:
-    - sourceLabels: [__name__]
-      regex: 'http_requests_total'
-      action: keep
-```
-
----
-layout: default
----
-
-# Alert Management
-
-```yaml
-groups:
-- name: api.rules
-  rules:
-  - alert: HighErrorRate
-    expr: |
-      sum(rate(http_requests_total{status=~"5.."}[5m])) 
-      / 
-      sum(rate(http_requests_total[5m])) > 0.05
-    for: 5m
-    labels:
-      severity: critical
-    annotations:
-      summary: High API Error Rate
-      description: "Error rate is {{ $value }}%"
-      runbook_url: "https://wiki.org/runbooks/high-error-rate"
-```
-
----
-layout: default
----
-
-# Real-World Case Study
-
-<div grid="~ cols-2 gap-4">
-<div>
-
-## Initial State
-- 99.5% availability
-- 500ms response time
-- 1% error rate
-- Manual scaling
-
-</div>
-<div>
-
-## After Implementation
-- 99.99% availability
-- 150ms response time
-- 0.1% error rate
-- Auto-scaling enabled
-
 </div>
 </div>
 
-<v-clicks>
+<!--
+Implementation best practices combine both strategic and technical aspects:
 
-## Key Learnings
-- Importance of baseline metrics
-- Value of automated responses
-- Need for proper monitoring
-- Cost vs. performance balance
+Core Principles:
+- Start with clear, measurable objectives
+- Establish performance baselines
+- Use gradual rollout strategies
+- Monitor business impact
 
-</v-clicks>
+Technical Implementation:
+- Smart tagging enables better filtering and cost allocation
+- Dashboards should tell a story
+- Alerts must be actionable and relevant
+- Automation reduces human error and response time
 
----
-layout: default
----
-
-# Auto-scaling Configuration
-
-```yaml
-# Horizontal Pod Autoscaling
-apiVersion: autoscaling/v2
-kind: HorizontalPodAutoscaler
-metadata:
-  name: api-hpa
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: api-service
-  minReplicas: 3
-  maxReplicas: 10
-  metrics:
-  - type: Resource
-    resource:
-      name: cpu
-      target:
-        type: Utilization
-        averageUtilization: 70
-```
-
----
-layout: section
----
-
-# Incident Response & SRE Practices
-
-<v-clicks>
-
-1. Automated Remediation
-2. Runbook Automation
-3. Post-Mortem Process
-4. SLO/SLI Management
-5. Error Budget Policy
-
-</v-clicks>
-
----
-layout: default
----
-
-# Automated Remediation
-
-```python
-def auto_remediate(incident):
-    if incident.type == "HighLatency":
-        # Scale up resources
-        scale_deployment(
-            namespace="production",
-            deployment="api-service",
-            replicas="+2"
-        )
-    elif incident.type == "HighErrorRate":
-        # Implement circuit breaker
-        enable_circuit_breaker(
-            service="affected-service",
-            threshold=0.5,
-            timeout="30s"
-        )
-```
+Key Success Factors:
+- Cross-team collaboration
+- Regular review and updates
+- Continuous improvement
+- Documentation and knowledge sharing
+-->
 
 ---
 layout: two-cols
 ---
 
-# Business Impact Analysis
+### Proactive Incident Management
 
+#### Grafana Alert Rule
 
-## Cost Metrics
-<v-clicks>
-
-- Infrastructure costs
-- Tool licensing
-- Operation overhead
-- Incident impact
-
-</v-clicks>
+```yaml {all|2-8|10-16|18-24}
+- name: API Health
+  rules:
+  - alert: APIEndpointDown
+    expr: probe_success{job="api-health"} == 0
+    for: 5m
+    labels:
+      severity: critical
+    annotations:
+      description: "API endpoint {{ $labels.instance }} is down"
+      
+  - alert: HighResponseTime
+    expr: |
+      avg_over_time(
+        api_response_time_seconds{quantile="0.95"}[5m]
+      ) > 0.3
+    labels:
+      severity: warning
+```
 
 ::right::
 
-## ROI Indicators
 <v-clicks>
 
-- Reduced MTTR
-- Improved availability
-- Customer satisfaction
-- Resource efficiency
+### Prometheus Alert Rules
+
+```yaml {all|2-6|8-12|14-18}
+groups:
+- name: api.alerts
+  rules:
+  - alert: HighErrorRate
+    expr: |
+      sum(rate(http_server_requests_count{status=~"5.."}[5m]))
+      /
+      sum(rate(http_server_requests_count[5m])) > 0.01
+    for: 5m
+    labels:
+      severity: critical
+      
+  - alert: HighLatency
+    expr: |
+      histogram_quantile(0.95, 
+        sum(rate(http_request_duration_seconds_bucket[5m])) 
+        by (le)) > 0.5
+    for: 3m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High API Latency Detected"
+```
 
 </v-clicks>
+
+
+---
+layout: two-cols
+---
+
+# Response Framework
+
+🔍 **Detection & Triage**
+
+- Correlation in Kibana
+- New Relic APM traces
+- Grafana dashboards
+
+
+**🚨 Automated Response**
+
+- Webhook integrations
+- PagerDuty workflows
+- Slack notifications
+
+::right::
+
+<v-clicks>
+
+**📊 SLO Tracking**
+
+- Error budgets
+- Latency objectives
+- Availability targets
+
+<div class="mt-4">
+ <img 
+   src="https://media.giphy.com/media/ZKw0NDn10ljSE/giphy.gif?cid=790b7611kgvazcj0twrfqbemjju5b5zn6vsmbpujqexhvse6&ep=v1_gifs_search&rid=giphy.gif&ct=g" 
+   class="rounded-lg shadow-xl w-full"
+   alt="SLO Monitoring Dashboard"
+ />
+</div>
+
+</v-clicks>
+
+<!--
+Let's explore real-world incident management using popular monitoring tools:
+
+Prometheus/Grafana:
+- PromQL expressions for precise alerting
+- Multi-window evaluation
+- Label-based routing
+
+Elastic Stack:
+- APM-based alerting
+- Complex query support
+- Scheduled evaluations
+
+New Relic:
+- NRQL for flexible querying
+- Built-in APM metrics
+- Golden signals monitoring
+
+Key Integration Points:
+- Alert correlation across tools
+- Unified notification channels
+- Automated response workflows
+- SLO/SLI tracking
+
+Best Practices:
+- Use appropriate tools for different metrics
+- Combine multiple data sources
+- Set meaningful thresholds
+- Establish clear escalation paths
+-->
+
+---
+layout: default
+---
+
+# Real-World Case Study: E-commerce API Transformation
+
+<div grid="~ cols-2 gap-4">
+<div>
+
+<v-clicks>
+
+```mermaid
+pie title "Initial Error Distribution"
+    "Timeouts" : 45
+    "Rate Limits" : 30
+    "5xx Errors" : 15
+    "Other" : 10
+```
+
+</v-clicks>
+
+</div>
+<div>
+
+<v-clicks>
+
+## Metrics
+
+- 99.5% availability
+- 500ms avg response time
+- 1.2% error rate
+- Manual scaling
+- 20+ incidents/month
+- No proper observability
+
+</v-clicks>
+
+</div>
+</div>
+
+---
+layout: default
+---
+
+# Real-World Case Study: E-commerce API Transformation
+
+<div grid="~ cols-3 gap-4">
+<div>
+
+
+```yaml
+tools:
+  metrics:
+    - New Relic APM
+    - Prometheus/Grafana
+  logging:
+    - ELK Stack
+    - NewRelic Logs
+  tracing:
+    - New Relic APM
+  alerts:
+    - PagerDuty integration
+    - Slack channels
+```
+
+</div>
+<div>
+
+### Results (3 Months)
+
+📈 99.99% availability
+
+⚡ 150ms avg response time
+
+📉 0.1% error rate
+
+🤖 Auto-scaling enabled
+
+🔔 3 incidents/month
+
+📊 Full observability
+
+</div>
+<div>
+
+### ROI Impact
+
+
+📈 99.99% availability
+
+⚡ 150ms avg response time
+
+📉 0.1% error rate
+
+🤖 Auto-scaling enabled
+
+🔔 3 incidents/month
+
+📊 Full observability
+
+</div>
+</div>
+
+<!--
+Let's walk through this transformation:
+
+Initial Challenges:
+- High error rates impacting customer experience
+- Poor performance affecting business
+- Manual operations causing delays
+- Limited visibility into issues
+
+Implementation Strategy:
+1. Deployed comprehensive monitoring stack
+2. Established clear SLOs
+3. Automated key processes
+4. Implemented proper alerting
+
+Key Learnings:
+1. Start with baseline metrics
+2. Gradual tool integration
+3. Team training crucial
+4. Continuous refinement needed
+
+The ROI demonstrates the value of proper monitoring and observability in improving both technical and business metrics.
+-->
 
 ---
 layout: center
 class: text-center
 ---
 
-# Q&A
+# Elevate Your API Performance
 
-Let's discuss your questions!
-
-<div class="pt-8">
-  <span class="px-2 py-1">
-    Common Topics:
-    - Tool selection strategy
-    - Cost optimization
-    - Scale challenges
-    - Integration patterns
-    - Team collaboration
-  </span>
+<div class="grid grid-cols-3 gap-8 mt-12 mb-16">
+<div>
+  <h3 class="text-2xl mb-4">📈</h3>
+  <h4 class="font-bold mb-2">Monitor</h4>
+  <p class="text-sm opacity-80">Implement comprehensive monitoring for complete visibility</p>
 </div>
+<div>
+  <h3 class="text-2xl mb-4">🛡️</h3>
+  <h4 class="font-bold mb-2">Protect</h4>
+  <p class="text-sm opacity-80">Build resilience into your API infrastructure</p>
+</div>
+<div>
+  <h3 class="text-2xl mb-4">🚀</h3>
+  <h4 class="font-bold mb-2">Optimize</h4>
+  <p class="text-sm opacity-80">Continuously improve based on real data</p>
+</div>
+</div>
+
+<div class="mt-8 text-center">
+  <p class="text-xl opacity-90 mb-4">Stay Connected!</p>
+  <div class="flex justify-center gap-4 items-center">
+    <a href="https://twitter.com/LuqmanBello_" target="_blank" class="opacity-80 hover:opacity-100 flex items-center">
+      <logos:twitter class="w-6 h-6 mr-2" /> @LuqmanBello_
+    </a>
+    <span class="text-gray-400">|</span>
+    <a href="https://www.linkedin.com/in/luqman-bello/" target="_blank" class="opacity-80 hover:opacity-100 flex items-center">
+      <logos:linkedin class="w-6 h-6 mr-2" /> /in/luqman-bello
+    </a>
+  </div>
+</div>
+
+<div class="abs-br m-6 flex gap-2">
+  <a href="https://lu.ma/92yp3ytk" target="_blank" 
+    class="text-xl opacity-50 !border-none !hover:text-white">
+    API Connect
+  </a>
+</div>
+
+<!--
+Closing thoughts:
+
+1. Monitoring is not just about collecting data, it's about gaining insights
+2. Resilience comes from understanding and preparing for failure modes
+3. The journey to better API performance is continuous
+
+Key takeaways for the audience:
+- Start with clear objectives
+- Choose the right tools
+- Build gradually
+- Focus on business impact
+
+Thank you for your attention, and feel free to reach out for further discussions!
+-->
+
+---
+layout: center
+---
+
+# Q&A
 
 ---
 layout: end
@@ -924,10 +1006,6 @@ layout: end
 
 <div class="pt-12">
   <span @click="$slidev.nav.next" class="px-2 py-1 rounded cursor-pointer" hover="bg-white bg-opacity-10">
-    Resources and Documentation Available
-    - GitHub Repo: example/api-monitoring
-    - Documentation: docs.example.com
-    - Contact: @luqman
   </span>
 </div>
 
