@@ -891,18 +891,10 @@ tools:
 
 ### ROI Impact
 
-
-📈 99.99% availability
-
-⚡ 150ms avg response time
-
-📉 0.1% error rate
-
-🤖 Auto-scaling enabled
-
-🔔 3 incidents/month
-
-📊 Full observability
+- 70% reduction in MTTR
+- 85% fewer customer complaints
+- 3x improved developer productivity
+- 40% reduction in operational costs
 
 </div>
 </div>
